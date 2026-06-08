@@ -1,0 +1,9 @@
+[09:04:27](INFO) Using device cuda:0 (NVIDIA GeForce RTX 4070)
+[09:04:27](INFO) Creating dataset...
+[09:04:27](INFO) Dataset: 1315 views (4 sequences)
+[09:04:27](WARNING) UV coordinates for mouth interior are not computed.
+[09:04:29](INFO) Initializing deformer network
+[09:04:29](INFO) Pre-training the deformer for 2000 iterations
+[09:04:33](INFO) Initializing neural shader
+[09:04:33](INFO) Using hashgrid (tinycudann) for intrinsic materials
+[09:04:36](INFO) Training from iteration 1 to 3000 (1 epoch = 328 iters)

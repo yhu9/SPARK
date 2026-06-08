@@ -35,9 +35,9 @@ def main(avatar: Avatar):
 
     if args.train_views_whitelist:
         dataset_train_subset = torch.utils.data.Subset(dataset_train, args.train_views_whitelist)
-        dataloader_train = DeviceDataLoader(dataset_train_subset, device=device, batch_size=args.batch_size, collate_fn=dataset_train.collate, shuffle=True, drop_last=False, num_workers=4)
+        dataloader_train = DeviceDataLoader(dataset_train_subset, device=device, batch_size=args.batch_size, collate_fn=dataset_train.collate, shuffle=True, drop_last=False, num_workers=args.batch_size)
     else:
-        dataloader_train = DeviceDataLoader(dataset_train, device=device, batch_size=args.batch_size, collate_fn=dataset_train.collate, shuffle=True, drop_last=True, num_workers=4)
+        dataloader_train = DeviceDataLoader(dataset_train, device=device, batch_size=args.batch_size, collate_fn=dataset_train.collate, shuffle=True, drop_last=True, num_workers=args.batch_size)
 
     if args.visualization_views:
         view_indices = args.visualization_views

@@ -18,7 +18,7 @@ def config_parser():
 
     # misc
     parser.add_argument("--resume", type=int, default=0, help="Resume training at a given iteration")
-    parser.add_argument("--batch_size", type=int, default=4, help="Number of views used per iteration")
+    parser.add_argument("--batch_size", type=int, default=3, help="Number of views used per iteration")
     parser.add_argument("--sample_idx_ratio", type=int, default=1, help="To sample less images (mainly for debugging purposes)")    
     parser.add_argument("--device", type=int, default=0, choices=([-1] + list(range(torch.cuda.device_count()))), help="Which GPU to use; -1 is CPU")
     parser.add_argument("--visualization_views", type=int, nargs="+", default=[], help="Views to use for visualization")

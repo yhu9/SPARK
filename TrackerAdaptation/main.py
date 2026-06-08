@@ -1,26 +1,26 @@
-import sys
-import os
 import logging
+import os
+import sys
 
-from configargparse import ArgumentParser, Namespace
 import torch
-from torch.utils.data import Subset
-
 # Add dependencies to PYTHONPATH
 from adapt.constants import EMOCA_PATH, MULTIFLARE_PATH, SMIRK_PATH
+from configargparse import ArgumentParser, Namespace
+from torch.utils.data import Subset
+
 sys.path.insert(1, str(MULTIFLARE_PATH))
 sys.path.insert(1, str(EMOCA_PATH))
 sys.path.insert(1, str(SMIRK_PATH))
 
+from adapt.constants import CROP_RESOLUTION
+from adapt.crop_dataset import CropDataset
+from adapt.general_utils import train_val_split
+from adapt.wrapper import FaceTrackerWrapper
+from arguments import config_parser as multiflare_config_parser
 # MultiFLARE imports
 from dataset import MultiVideoDataset
 from utils.dataset import DatasetCache
-from arguments import config_parser as multiflare_config_parser
 
-from adapt.crop_dataset import CropDataset
-from adapt.wrapper import FaceTrackerWrapper
-from adapt.general_utils import train_val_split
-from adapt.constants import CROP_RESOLUTION
 
 def spark_setup(args: Namespace, render_mode="crop", training=False,
                 test_smooth_crops=False, test_sample_ratio=1, test_max_frames=None):
@@ -74,7 +74,7 @@ def spark_config_parser():
     parser.add_argument("--multiflare", type=str, required=True, help="FLARE config file path")
     parser.add_argument("--multiflare_resume", type=int, default=0, help="FLARE resume iteration")
     # Tracker adaptation
-    parser.add_argument("--batch_size", type=int, default=16, help="Batch size")
+    parser.add_argument("--batch_size", type=int, default=12, help="Batch size")
     parser.add_argument("--tracker_resume", type=int, default=0, help="Tracker adaptation resume iteration")
     parser.add_argument("--val_ratio", type=float, default=0.1, help="Ratio of images to keep out of the training set for validation")
     parser.add_argument("--test_dirs", type=str, nargs="+", default=[], help="Test sequence directories")

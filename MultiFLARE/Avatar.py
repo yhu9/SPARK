@@ -1,22 +1,19 @@
+import logging
 import os
 import random
-import logging
 from pathlib import Path
 from typing import Dict
 
 import numpy as np
 import torch
-from torch import Tensor
-
-from flame import FLAME
 from dataset import MultiVideoDataset
-from utils.geometry import disconnect_vertices, remove_faces
+from flame import FLAME
 from flare.core import Mesh, Renderer
-from flare.modules import (
-    NeuralShader, ForwardDeformer, Displacements,
-    pretrain_deformer,
-    load_blendshapes, FLAME_to_blendshape_coefficients,
-)
+from flare.modules import (Displacements, FLAME_to_blendshape_coefficients,
+                           ForwardDeformer, NeuralShader, load_blendshapes,
+                           pretrain_deformer)
+from torch import Tensor
+from utils.geometry import disconnect_vertices, remove_faces
 
 # Fix all seeds
 torch.manual_seed(1138)
@@ -31,7 +28,7 @@ class Avatar():
 
         # Dirs / IO
         setup_logging(args.output_dir / args.run_name / "log.txt")
-        self._init_dirs() 
+        self._init_dirs()
 
         # Select device
         device = torch.device('cpu')
@@ -59,7 +56,7 @@ class Avatar():
             tracking_dict = torch.load(self.networks_save_path / f"tracking_{args.resume:06d}.pt")
             pose_train = tracking_dict["pose_train"].to(device)
             expr_train = tracking_dict["expr_train"].to(device)
-            cams_K_train =  tracking_dict["cams_K_train"].to(device)
+            cams_K_train = tracking_dict["cams_K_train"].to(device)
             misc_dict = torch.load(self.networks_save_path / f"misc_{args.resume:06d}.pt")
             for key in misc_dict:
                 if key.startswith("mask.v."):
