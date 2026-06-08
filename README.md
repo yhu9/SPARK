@@ -36,6 +36,14 @@
     </p>
 </p>
 
+## Notes: yhu9
+This is a forked repository from the original github repo by kelianB. There are
+several installation details aren't covered by the original repo that needs to
+be addressed in order for this repo to work, and I make note of it here in the
+forked repo.
+
+In order to run this repo, follow the installation steps below.
+
 ## Citation
 
 If you find our code or paper useful, please cite as:
@@ -59,8 +67,30 @@ If you find our code or paper useful, please cite as:
 
 ## Installation
 
+This repository does not include sample data to run the method on, and will not
+work unless the data you provide is processed using
+[MonoFaceCompute](https://github.com/KelianB/MonoFaceCompute). However, the
+setup steps in the mentioned github repo is outdated and will throw several
+errors while trying to process your own dataset. The processing pipeline to
+create your own dataset also requires several submodules which are not
+compatible with each other due to conflicting library requirements. Additional
+steps to unify packages of the submodules in order to run the preprocessing
+steps are not yet figured out and I'm currently working on determining an
+alternative environment configuration which would allow for the preprocessing
+to work without throwing errors, but that is a work in progress. 
+
+
+
 <details>
     <summary>Details</summary>
+
+SPARK has been tested with NVIDIA RTX A5000 (24GB) or RTX 4070 (16GB) GPUs. It
+is possible to train on GPUs with less memory by reducing the batch size. By
+default the MultiFLARE portion of the code takes 11040MiB of GPU memory. The
+`--batch_size` argument greatly affects the GPU memory used and for GPUs with
+less memory adjust the batch_size such that it fits to your available space.
+For my RTX 4070 on my local machine I adjusted the default batch_size argument
+to 4 for the MultiFalre portion and 12 for the TrackerAdapatation portion.
 
 - Create the environment using [setup.sh](./setup.sh).
 - Run [TrackerAdaptation/setup_submodules.sh](./TrackerAdaptation/setup_submodules.sh). This may take a few minutes.

@@ -1,8 +1,9 @@
+from argparse import BooleanOptionalAction
 from pathlib import Path
 
-from configargparse import ArgumentParser
-from argparse import BooleanOptionalAction
 import torch
+from configargparse import ArgumentParser
+
 
 def config_parser():
     parser = ArgumentParser()

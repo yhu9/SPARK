@@ -1,19 +1,29 @@
-import time
+import logging
 import math
+import time
+
 import numpy as np
 import torch
-from tqdm import tqdm
 import wandb
 from arguments import config_parser
-import logging
-
+from Avatar import Avatar
 from dataset import MultiVideoDataset
-from utils.visualization import save_img, convert_uint, visualize_grid, tensor_vis_landmarks
+from flare.core import Mesh
+from flare.losses import (laplacian_loss, normal_consistency_loss,
+                          shading_loss_batch, shading_loss_batch_framewise)
+from flare.losses.deformation import flame_regularization
+from flare.losses.image import mask_loss
+from flare.losses.landmarks import iris_L1_loss, landmarks_L1_loss
+from flare.losses.material_regularization import (
+    albedo_regularization, roughness_regularization,
+    spec_intensity_regularization, white_light)
+from flare.losses.perceptual_loss import VGGPerceptualLoss
+from tqdm import tqdm
 from utils.dataset import DeviceDataLoader, SemanticMask, to_device_recursive
 from utils.geometry import remesh_FLAME, subdivide_FLAME
-from flare.core import Mesh
-from flare.losses import *
-from Avatar import Avatar
+from utils.visualization import (convert_uint, save_img, tensor_vis_landmarks,
+                                 visualize_grid)
+
 
 def main(avatar: Avatar):
     args = avatar.args
@@ -37,7 +47,7 @@ def main(avatar: Avatar):
 
     debug_views = to_device_recursive(debug_views, device)
 
-    #################### Loss functions and weights ####################
+    """ Loss functions and weights """
     loss_weights = {
         "mask": args.weight_mask,
         "normal": args.weight_normal,
@@ -69,7 +79,7 @@ def main(avatar: Avatar):
     if args.mask_loss_no_hair:
         mask_loss_disable_labels.append(SemanticMask.HAIR)
         
-    #################### Create optimizers ####################
+    """ Create optimizers """
     lr_vertices = args.lr_vertices
     def create_displacements_optimizer(args, lr):
         return torch.optim.Adam(list(displacements.parameters()), lr=lr)
@@ -214,7 +224,7 @@ def main(avatar: Avatar):
             if loss_weights["displacement_regularization_L1"] > 0:
                 losses["displacement_regularization_L1"] = torch.linalg.vector_norm(canonical_offsets, dim=-1, ord=1).mean()
 
-            # Mask loss 
+            # Mask loss
             if args.mask_loss_type == "matte":
                 mask = views["mask"]
             elif args.mask_loss_type == "semantic":
