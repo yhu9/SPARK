@@ -36,14 +36,6 @@
     </p>
 </p>
 
-## Notes: yhu9
-This is a forked repository from the original github repo by kelianB. There are
-several installation details aren't covered by the original repo that needs to
-be addressed in order for this repo to work, and I make note of it here in the
-forked repo.
-
-In order to run this repo, follow the installation steps below.
-
 ## Citation
 
 If you find our code or paper useful, please cite as:

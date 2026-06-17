@@ -138,5 +138,6 @@ cython_debug/
 
 MultiFLARE/assets/flame/flame*.pkl
 MultiFLARE/configs/**/*.txt
+MultiFLARE/datasets/**
 TrackerAdaptation/configs/**/*.txt
-output/** 
+output/**
