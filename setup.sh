@@ -1,3 +1,5 @@
+ln TrackerAdaptation/submodules/EMOCA/assets/FLAME/geometry/generic_model.pkl MultiFLARE/assets/flame/flame2020.pkl
+
 mamba create -n SPARK python=3.9
 conda activate SPARK
 
@@ -9,6 +11,9 @@ export CC=$CONDA_PREFIX/bin/x86_64-conda-linux-gnu-gcc
 export CXX=$CONDA_PREFIX/bin/x86_64-conda-linux-gnu-g++
 export NVCC_PREPEND_FLAGS="-ccbin $CXX"
 export CUDA_HOME=$CONDA_PREFIX
+# tiny-cuda-nn/nvdiffrast link against the libcuda driver stub at build time (real driver is used at runtime)
+export LIBRARY_PATH=$CONDA_PREFIX/lib/stubs:$LIBRARY_PATH
+mamba activate SPARK
 # which nvcc && nvcc --version
 
 #################### MultiFLARE ####################
@@ -25,7 +30,9 @@ pip install setuptools wheel ninja
 pip install git+https://github.com/NVlabs/nvdiffrast.git --no-build-isolation
 pip install --no-build-isolation git+https://github.com/NVlabs/tiny-cuda-nn#subdirectory=bindings/torch
 
-pip install gpytoolbox opencv-python meshzoo trimesh matplotlib chumpy lpips configargparse open3d wandb
+# meshzoo's old PyPI releases were removed and current ones require Python >=3.10; conda-forge keeps a 3.9-compatible build
+mamba install -n SPARK -c conda-forge meshzoo -y
+pip install gpytoolbox opencv-python trimesh matplotlib chumpy lpips configargparse open3d wandb
 pip install xatlas
 pip install git+https://github.com/jonbarron/robust_loss_pytorch
 
@@ -41,7 +48,7 @@ mamba install -n SPARK omegaconf~=2.0.6 pytorch-lightning==1.4.9 torchmetrics==0
 # We need a specific version of numpy to pickle-load FLAME.
 # However, our dependencies have likely upgraded numpy, so we need to reinstall the correct version.
 # This will probably throw a warning.
-pip install numpy==1.23
+pip install --no-cache-dir --force-reinstall --no-deps "numpy==1.23.0"
 
 # For downloading pre-trained models
 pip install gdown
