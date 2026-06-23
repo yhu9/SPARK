@@ -1,7 +1,7 @@
 ln TrackerAdaptation/submodules/EMOCA/assets/FLAME/geometry/generic_model.pkl MultiFLARE/assets/flame/flame2020.pkl
 
 mamba create -n SPARK python=3.9
-conda activate SPARK
+mamba activate SPARK
 
 # Environment cuda libraries
 mamba install -n SPARK -c "nvidia/label/cuda-11.7.0" cuda-toolkit -y

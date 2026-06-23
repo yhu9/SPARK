@@ -1,5 +1,5 @@
-input_dir = /home/masahu/projects/forked-repos/MonoFaceCompute/datasets/obama/face_processed/
-train_dir = ["1", "2", "4", "5"] # subdirs of input_dir
+input_dir = /home/masahu/data/urus-videos/obama_processed/face_processed/
+train_dir = ["1", "2", "3", "4"] # subdirs of input_dir
 output_dir = /home/masahu/projects/forked-repos/SPARK/output/obama
 
 batch_size = 4

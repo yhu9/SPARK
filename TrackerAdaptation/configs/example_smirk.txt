@@ -1,6 +1,6 @@
 multiflare = example.txt # config in MultiFLARE/configs
 multiflare_resume = 3000
-test_dirs = ["5", "6"]
+test_dirs = ["6"]
 
 exp_name = SMIRK_MultiFLARE
 
